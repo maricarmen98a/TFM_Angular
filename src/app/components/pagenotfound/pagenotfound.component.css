@@ -1,0 +1,30 @@
+
+.container img {
+    width: 100%;
+    max-width: 800px;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    animation-duration: 2s;
+}
+h2 {
+    padding-top: 5%;
+    text-align: center;
+    color: white;
+}
+@media (min-width: 768px) {
+    h2 {
+        font-size: 2rem;
+        padding-bottom: 30px;
+    }
+    .container img {
+        max-width: 500px;
+    }
+}
+@media (min-width: 1200px) {
+     .main {
+         min-height: 80vh;
+     }
+     
+}

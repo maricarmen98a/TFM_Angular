@@ -1,0 +1,58 @@
+<div class="footer">
+    <div>
+        <div><a onclick="closeNav()" routerLink="/"><fa-icon [icon]="faHouse"></fa-icon><div>Inicio</div></a></div>
+    </div>
+    <div>
+        <div><a onclick="closeNav()" routerLink="/search-booking"><fa-icon [icon]="faPlane"></fa-icon><div>Mis vuelos</div></a></div>
+    </div>
+    <div>
+        <div><a onclick="closeNav()" routerLink="/boarding"><fa-icon [icon]="faBoarding"></fa-icon><div class="tarjetas">Tarjetas de embarque</div></a></div>
+    </div>
+    <div>
+        <div><a class="openNav" onclick="openNav()"><fa-icon [icon]="faMenu"></fa-icon><div>Más</div></a></div>
+    </div>
+</div>
+<div class="footer-laptop">
+    
+    <div class="item">
+        <div><a routerLink="/search-booking">Mis vuelos</a></div>
+    </div>
+    <div class="item">
+        <div><a routerLink="/boarding">Tarjetas de embarque</a></div>
+    </div>
+    
+    <div class="item">
+        <div><a routerLink="/about-us">Sobre nosotros</a></div>
+    </div>
+    <div class="item">
+        <div><a routerLink="/policy">Política de cookies y privacidad</a></div>
+    </div>
+    <div class="item">
+        <div><a routerLink="/covid">Información COVID</a></div>
+    </div>
+    <div class="item">
+        <div><a routerLink="/help">Ayuda</a></div>
+    </div>
+    <div class="item" *ngIf="!isSignedIn">
+        <div><a routerLink="/login">Iniciar sesión</a></div>
+    </div>
+    <div class="item" *ngIf="!isSignedIn">
+        <div><a routerLink="/register">Registrarse</a></div>
+    </div>
+    <div class="item" *ngIf="isSignedIn">
+        <div><a routerLink="/">Ofertas especiales</a></div>
+    </div>
+</div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">< Atrás</a>
+    <button *ngIf="!isSignedIn" onclick="closeNav()" routerLink="/login">Iniciar sesión</button> 
+    <button *ngIf="!isSignedIn" onclick="closeNav()" routerLink="/register">Registrarse</button> 
+    <button onclick="closeNav()" routerLink="/search-booking">Mis vuelos</button> 
+    <button onclick="closeNav()" routerLink="/boarding">Tarjetas de embarque</button> 
+    <button *ngIf="isSignedIn" onclick="closeNav()" routerLink="/">Ofertas especiales</button> 
+    <button onclick="closeNav()" routerLink="/about-us">Sobre nosotros</button> 
+    <button onclick="closeNav()" routerLink="/policy">Política de cookies y privacidad</button> 
+    <button onclick="closeNav()" routerLink="/covid">Información COVID</button> 
+    <button onclick="closeNav()" routerLink="/help">Ayuda</button> 
+  </div>
+  

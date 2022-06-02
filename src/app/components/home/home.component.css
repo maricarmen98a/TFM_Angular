@@ -1,0 +1,46 @@
+.home-banner {
+    display: flex;
+    justify-content: center;
+    background-image: url("../../../assets/avionHome.webp");
+    background-size: 100%;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding-top: 150px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.caja-vuelos {
+    background-color: white;
+    width: 400px;
+    margin: 30px;
+    border-radius: 20px;
+    padding-bottom: 30px;
+}
+
+@media screen and (min-width: 540px) {
+    .home-banner {
+        display: flex;
+        background-image: url("../../../assets/avionTablet.webp");
+        padding-top: 200px;
+    }  
+
+}
+@media (min-width: 1200px) {
+    .caja-vuelos {
+        width: 900px;
+        margin-top: 350px;
+        margin-bottom: 0;
+    
+    }
+    .home-banner {
+        background-image: url("../../../assets/avionLaptop.webp");
+        background-position: top;
+        padding-top: 0;
+    }
+}
+@media (min-width: 1400px) {
+    .home-banner {
+        padding-top: 150px;
+
+    }
+}

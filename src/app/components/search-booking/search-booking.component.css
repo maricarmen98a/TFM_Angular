@@ -1,0 +1,140 @@
+.planeSearch {
+    max-width: 180px;
+    object-fit: contain;
+}
+.planeSearch2 {
+    max-width: 50px;
+}
+.container-plane {
+    display: flex;
+    justify-content: center;
+}
+.results__info {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid; 
+}
+h2 {
+    font-size: 1.6rem;
+}
+h3 {
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+.results {
+    background-color: white;
+    color: black;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+.results h3:nth-child(1) {
+    font-size: 1.1rem;
+}
+a {
+    color: black;
+}
+.link-extras {
+    grid-column-start: 1;
+}
+a:hover {
+    color: red;
+}
+.main-container {
+    color: white;
+    text-align: center;
+}
+.noFlights {
+    padding-top: 20px;
+    font-size: 1.1rem;
+}
+.search-booking {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    padding-bottom: 90px;
+    margin-top: 30px;
+    width: 100%;
+    min-height: 240px;
+}
+input {
+    margin-bottom: 20px;
+    width: 80%;
+    height: 30px;
+}
+.container-error {
+    padding-bottom: 20px;
+}
+.atras {
+    margin-top: 15px;
+}
+.load {
+    margin: 20px;
+}
+.noResults {
+    height: 210px;
+}
+.biggerMargin {
+    margin-top: 180px;
+}
+.biggerMargin2 {
+    margin-top: 60px;
+}
+.link-pass {
+    grid-column-start: 3;
+}
+.cloudsLaptop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    animation: floating 2s infinite;
+    animation-delay: 2s;
+    padding-top: 50px;
+}
+
+.cloudDown {
+    padding-top: 15px;
+}
+.cloudsLaptop img {
+    max-width: 40px;
+   
+}
+@media (min-width: 768px) {
+    .cloudsLaptop img {
+        max-width: 70px;
+    }
+}
+@media (min-width: 1200px) {
+    .results {
+        border-radius: 24px;
+        width: 100%;
+    }
+    .main-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        min-height: 800px;
+    }
+    .search-booking {
+        width: 60%;
+        border-radius: 24px;
+        margin-top: 150px;
+        margin-bottom: 100px;
+        padding-bottom: 30px;
+    }
+    .search-booking input {
+        width: 60%;
+    }
+    .flex-results {
+        width: 900px;
+    }
+    .cloudsLaptop {
+        width: 600px;
+    }
+}

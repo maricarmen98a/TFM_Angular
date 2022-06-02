@@ -1,0 +1,62 @@
+.avion {
+    background-image: url("../../../assets/cloud3.webp");
+    background-position: center;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-container img {
+    width: 90%;
+}
+.grid div {
+    padding: 20px;
+}
+.grid div p {
+    padding-top: 10px;
+    font-size: 1.1rem
+}
+.grid {
+    display: grid;
+    grid-template-columns: 300px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 100px;
+    animation: bounceInLeft;
+    animation-duration: 2s;
+}
+h2, .grid {
+    padding-top: 30px;
+    text-align: center;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 200px 200px;
+        gap: 10%;
+        padding-bottom: 150px;
+    }
+    h2 {
+        font-size: 1.6rem;
+        padding-bottom: 20px;
+    }
+    .img-container {
+        max-width: 60%;
+        height: auto;
+    }
+    .avion {
+        min-height: 400px;
+    }
+}
+@media (min-width: 1200px) {
+    .avion {
+        height: 550px;
+    }
+}

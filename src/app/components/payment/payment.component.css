@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    justify-content: center;
+    align-items: center;    
+    text-align: center;
+
+}
+.container-card {
+    background-color: white; 
+    border-radius: 24px;
+    padding: 10px;
+    margin: 20px;
+    min-width: 280px;
+}
+.form-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-group input, .form-group select {
+    height: 30px;
+    margin: 5px;
+    width: 70%;
+}
+.container-info {
+    color: white;
+}
+.form-group button {
+    margin: 20px;
+}
+.details button {
+    margin-bottom: 20px;
+}
+.container-accepted {
+    color: white;
+    padding-bottom: 30px;
+}
+.container-accepted img {
+    padding-bottom: 30px;
+}
+.container-accepted a {
+    color: white;
+}
+.container-accepted a:hover {
+    color: var(--button);
+}
+.error404 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+    min-height: 70vh;
+}
+.no404 {
+    min-height: 70vh;
+}
+.error404 img {
+    padding-bottom: 50px;
+    padding-top: 20px;
+}
+.error404 a {
+    cursor: pointer;
+}
+.error404 a:hover {
+    text-decoration: underline;
+}
+.atras {
+    
+    padding-left: 20px;
+    padding-bottom: 100px;
+}
+@media (min-width: 1200px) {
+    h2 {
+        font-size: 1.6rem;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 500px 500px;
+        gap: 50px;
+        min-height: 500px;
+    }
+    .atras {
+        padding-bottom: 30px;
+    }
+    .row {
+        display: grid;
+        grid-template-columns: 200px 200px;
+        justify-content: center;
+    }
+    .form-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .card-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .botones {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .details {
+        display: grid;
+        grid-template-columns: 250px 250px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: larger;
+    }
+     .calculate {
+        grid-column-start: 1;
+        margin-left: 70px;
+    } 
+}

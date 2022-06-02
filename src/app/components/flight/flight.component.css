@@ -1,0 +1,209 @@
+select {
+    max-height: 20px;
+}
+.caja-mat {
+    display: block;
+    text-align: center;
+}
+.caja__boton {
+    padding-top: 20px;
+}
+.boton-cambiar {
+    max-width: 20px;
+}
+.boton-buscar, .bookingStatus {
+    margin-top: 20px;
+}
+.form-flight {
+    display: contents;
+}
+.title h3 {
+    padding-top: 10px;
+}
+@media screen and (min-width: 540px) {
+    .caja-mat__flex, .caja-mat {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+#startDate {
+    text-align: center;
+}
+.form-date {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-date__label {
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    padding-bottom: 8px;
+}
+.bookingBox, .table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.form-userinfo {
+    padding: 10px;
+}
+.form-userinfo form {
+    padding: 10px;
+}
+.form-userinfo form button {
+    margin-top: 10px;
+}
+.form-userinfo .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.form-userinfo .form-group input {
+    height: 30px;
+    width: 80%;
+    margin-top: 10px;
+}
+.form-userinfo .form-group label:nth-child(1) {
+    margin-top: 20px;
+}
+.form-userinfo mat-error {
+    margin-top: 5px;
+}
+.bt-search {
+    width: 150px;
+    border-radius: 0;
+    border-top-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    transition: none;
+    transform: none;
+    font-size: larger;
+}
+
+input[type="date"] {
+    appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.7);
+    padding: 5px;
+    display: inline-block !important;
+    visibility: visible !important;
+    width: 180px;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+}
+.addInfo {
+    margin-top: 10px;
+}
+.error {
+    color: red;
+    margin-left: 30px;
+    margin-right: 5px;
+    text-align: left;
+    padding-top: 10px;
+}
+.bookingBox {
+    padding-bottom: 20px;
+}
+table tr td:nth-child(2) {
+    color: #2177c5;
+    text-align: right;
+    padding-right: 5px;
+    
+}
+table tr td:nth-child(1) {
+    text-align: left;
+    padding-left: 5px;
+    font-size: larger;
+
+}
+table tr {
+    padding-bottom: 5px;
+
+}
+.clouds {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 5%;
+    animation: floating 2s infinite;
+}
+.clouds mat-icon {
+    color: #5994cc;
+}
+.cloudDown {
+    padding-top: 15px;
+}
+.clouds img {
+    max-width: 70px;
+}
+.errorSame {
+    padding-bottom: 10px;
+}
+@media (min-width: 1200px) {
+    .caja-mat__flex form {
+        display: grid;
+        grid-template-columns: 270px 80px 270px;
+        gap: 20px;
+        grid-template-areas: "ida cambiar vuelta"
+                            "fecha . boton";
+    }
+    .caja-mat__flex, .caja-mat {
+        justify-content: normal;
+    }
+    .caja-mat__flex {
+        padding-bottom: 20px;
+    }
+    .boton-buscar {
+        grid-area: boton;
+        width: 70% !important;
+        font-size: larger;
+        margin-top: 40px;  
+    }
+    .bt-search {
+        height: 50px;
+        width: 180px;
+    }
+    h2 {
+        font-size: 1.6rem;
+        padding-bottom: 20px;
+    }
+    .resultados {
+        display: grid;
+        margin-top: 20px;
+        gap: 60px;
+        row-gap: 0;
+        grid-template-columns: 300px 300px;
+        font-size: larger;
+
+    }
+    .form-userinfo {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .title h3 {
+        font-size: 1.6rem;
+    }
+
+    .clouds {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+}
+

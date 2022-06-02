@@ -1,0 +1,97 @@
+:root {
+    --button: #BB1D1D;
+}
+
+.header-laptop {
+    display: none;
+} 
+.header-laptop button, .header-laptop a {
+    margin-left: 30px;
+    margin-right: 30px;
+    font-size: larger;
+}
+.header-laptop button {
+    height: 40px;
+    width: 140px;
+}
+.header-laptop a {
+    text-decoration: none;
+    color: white;
+}
+.header-laptop a:hover {
+    color: var(--button-click);
+}
+.sesion {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 15px;
+    display: flex;
+    
+}
+.logo {
+    max-width: 200px;
+     margin-left: 10%;
+}
+.logo:hover {
+    transform: scale(1.1);
+    transition: all .2s ease-in-out;
+}
+.logo-div {
+    display: flex;
+    justify-content: center;
+    flex: 2;
+}
+.circle-icon {
+    padding: 9px;
+    border-radius: 100%;
+    color: var(--button);
+    opacity: 88%;
+} 
+.sesion fa-icon {
+    font-size: 30px;
+}
+.class1 {
+    color: var(--button-click);
+}
+.circle-icon:hover {
+    color: var(--button-click);
+}
+.circle {
+    padding: 9px;
+    border-radius: 100%;
+    color: var(--button);
+    opacity: 88%;
+}
+.boton:hover {
+    background-color:aliceblue;
+    box-shadow: 0px 15px 20px rgba(255, 255, 255, 0.4);
+    color: black;
+    transform: translateY(-7px);
+}
+.mat-icon-button {
+    background-color: var(--button);
+}
+.mat-icon-button:hover {
+    background-color: var(--button-click);
+}
+@media (min-width: 768px) {
+    .logo {
+        max-width: 250px
+    }
+}
+@media (min-width: 1200px) {
+    .header-phone {
+        display: none;
+    }
+    .header-laptop {
+        display: block;
+        padding-top: 5px;
+    }
+    .header-laptop a {
+        cursor: pointer;
+    }
+    .logo-div {
+        justify-content: flex-start;
+        padding-left: 40px;
+    }
+}
