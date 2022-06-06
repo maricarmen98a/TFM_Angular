@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/shared/Services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -9,13 +10,14 @@ import { AuthService } from 'src/app/shared/Services/auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
   registerForm: FormGroup;
   errors: any = null;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {
     this.registerForm = this.fb.group({
       name: [''],
@@ -28,6 +30,7 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.authService.register(this.registerForm.value).subscribe(
       () => {
+        this.openSnackBar('Se ha registrado correctamente', undefined, 'snackbar') 
       },
       (error: any) => {
         this.errors = error.error;
@@ -38,5 +41,10 @@ export class SignupComponent implements OnInit {
       }
     );
   }
-
+  openSnackBar(message: string, undefined: string | undefined, className: string) {
+    this._snackBar.open(message, undefined, {
+      duration: 2000,
+      panelClass: [className]
+    });
+  }
 }

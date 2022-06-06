@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/shared/Services/auth.service';
 import { FlightService } from 'src/app/shared/Services/flight.service';
 import { LocalStorageService } from 'src/app/shared/Services/local-storage.service';
 export class User {
+  id?: any;
   name: any;
   email: any;
 }
@@ -34,21 +35,25 @@ export class BoardingPass2Component implements OnInit {
       this.isSignedIn = val;
     });
     if(this.isSignedIn == true) {
-      let retrievedObject = JSON.parse(this.local.getUsuario('usuario') || '{}');
-      this.UserProfile = retrievedObject;
+      this.authService.profileUser().subscribe((data: any) => {
+        this.UserProfile = data;
+      });
     }
-    this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservation = reservations)); 
+    this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservation = reservations));    
   }
   check() {
     let gates = [ "A2", "A4", "B6", "C7", "D4", "No está definida" ];
     this.gate = gates[Math.floor(Math.random()*gates.length)];
     this.local.setUsuario('gate', JSON.stringify(this.gate));
-    
-    if (this.UserProfile) {
+    if(this.reservation == undefined || null) {
+      this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservation = reservations));
+      return this.reservation;
+    }
+    if(this.UserProfile) {
       let values = Object.values(this.reservation);
       let merged = values.flat(1);
       this.filteredReservations = merged.filter((x) => {
-        return (x.passenger_email == this.UserProfile.email)
+          return (x.user_id == this.UserProfile.id)
       });
       if(this.filteredReservations.length > 0){
         this.searchStatus = true;
@@ -56,8 +61,8 @@ export class BoardingPass2Component implements OnInit {
       } else { 
         this.searchStatus = false;
       }
+      this.local.setUsuario('reserva', JSON.stringify(this.filteredReservations))
     }
-    this.local.setUsuario('reserva', JSON.stringify(this.filteredReservations))
   }
   step = 0;
   setStep(index: number) {

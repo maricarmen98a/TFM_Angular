@@ -6,7 +6,9 @@ import { FlightService } from 'src/app/shared/Services/flight.service';
 import { LocalStorageService } from 'src/app/shared/Services/local-storage.service';
 import { AuthService } from '../../../shared/Services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FlightDTO } from 'src/app/Models/flight';
 export class User {
+  id?: number;
   name: any;
   email: any;
   phone: any;
@@ -22,14 +24,14 @@ export class UserProfileComponent implements OnInit {
   errors: any;
   userHasBooking: boolean = false;
   bookings: any;
-  reservas!: ReservationDTO[];
   reservation!: ReservationDTO[];
   reservations!: ReservationDTO;
   bookingSearch: boolean = false;
   filteredReservations!: any[];
   usuario!: User;
-  userId!: string;
+  userId!: any;
   gate!: string;
+  flights!: FlightDTO[];
 
   constructor(public authService: AuthService, 
     public fb: FormBuilder, 
@@ -38,7 +40,6 @@ export class UserProfileComponent implements OnInit {
     public local: LocalStorageService,
     private _snackBar: MatSnackBar
     ) {
-    
     this.userForm = this.fb.group({
       name: [''],
       email: [''],
@@ -50,7 +51,7 @@ export class UserProfileComponent implements OnInit {
       this.UserProfile = data;
       this.local.setUsuario('usuario', JSON.stringify(this.UserProfile))
     });
-    this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservas = reservations)); 
+    this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservation = reservations)); 
     let gates = [ "A2", "A4", "B6", "C7", "D4", "No está definida" ];
     this.gate = gates[Math.floor(Math.random()*gates.length)];
     this.local.setUsuario('gate', JSON.stringify(this.gate));
@@ -69,15 +70,17 @@ export class UserProfileComponent implements OnInit {
     if(this.UserProfile == undefined) {
       alert('Tiene que iniciar sesión para visualizar esta información.');
     } 
-    let values = Object.values(this.reservas);
+    if(this.reservation == undefined || null) {
+      this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservation = reservations));
+      return this.reservation;
+    } 
+    let values = Object.values(this.reservation);
     let merged = values.flat(1);
     this.bookingSearch = true;
-    this.userId = this.UserProfile.name
-   
-
+    this.userId = this.UserProfile.id
     if (this.bookingSearch) {
       this.filteredReservations = merged.filter((x) => {
-        return (x.passenger_name == this.userId)
+        return (x.user_id == this.userId)
       });
     }
     if(this.filteredReservations.length > 0) {
@@ -90,13 +93,17 @@ export class UserProfileComponent implements OnInit {
     this.authService.updateUser(this.userForm.value).subscribe(
       () => {
         this.local.setUsuario('usuario', JSON.stringify(this.userForm.value))
-        this.openSnackBar('Se ha actualizado correctamente', undefined, 'snackbar')
+        this.openSnackBar('Se ha actualizado correctamente', undefined, 'snackbar') 
       },
       (error) => {
         this.errors = error.error;
       },
       () => {
         this.userForm.reset();
+        this.authService.profileUser().subscribe((data: any) => {
+          this.UserProfile = data;
+          this.local.setUsuario('usuario', JSON.stringify(this.UserProfile));
+        });
       }
     );
   }

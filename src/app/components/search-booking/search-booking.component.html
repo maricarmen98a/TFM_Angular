@@ -1,7 +1,7 @@
 <div class="main-container">
     <h2>Mis vuelos</h2>
     <div class="load">
-        <button (click)="loadData()">Cargar reservas</button>
+        <button type="button" (click)="loadData()">Cargar reservas</button>
     </div>
     <div *ngIf="!isloaded">
         <div class="cloudsLaptop">
@@ -39,7 +39,6 @@
             </div> 
         </div>
     </div>
-   
     <div [ngClass]="{'biggerMargin': isloaded === false, 'biggerMargin2' : userHasBooking === true}" class="search-booking">
         <h3>Localizador de reserva</h3>
         <input type="text" name="bookingSearch" placeholder="Ej.:DE6DuVdJ3f" [formControl]="bookingSearch">
@@ -54,10 +53,10 @@
             </mat-error>
         </div>
         <div>
-            <button (click)="search()">Buscar</button>
+            <button type="button" (click)="search()">Buscar</button>
         </div>
         <div class="atras">
-            <button (click)="back()">Atrás</button>
+            <button type="button" (click)="back()">Atrás</button>
         </div>
     </div>
 </div>

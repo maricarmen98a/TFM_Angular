@@ -40,28 +40,34 @@ export class RandomFlightComponent implements OnInit {
       name: this.name,
     });
   }
-  ngOnInit(): void {
-    this.flightService.getFlight().subscribe(() => { this.getAllContent() });
+  ngOnInit(): void {   
     this.auth.userAuthState.subscribe((val) => {
-        this.userConfirmado = val;
-      });
-    let retrievedObject = JSON.parse(this.local.getUsuario('usuario') || '{}');
-    this.usuario = retrievedObject;
-  }
-  private getAllContent() {
-    this.flightService
-      .getFlight()
-      .subscribe((flights: FlightDTO[]) => (this.flights = flights));
+      this.userConfirmado = val;
+    });
+    if(this.usuario == undefined || null) {
+      let retrievedObject = JSON.parse(JSON.stringify(this.local.getUsuario('usuario') || '{}'));
+      this.usuario = retrievedObject;
+    }
+    if(this.flights == undefined || null) {
+      let retrievedFlight = JSON.parse(this.local.getUsuario('flights') || '{}');
+      this.flights = retrievedFlight;
+    }
   }
   getRandomFlight() {
-    let values = Object.values(this.flights);
-    let merged = values.flat(1);
-    let shuffled = merged.sort(function(){return .5 - Math.random()});
-    let selected = shuffled.slice(0,4);
-    this.selectedRandom = selected;
-    this.vuelosAleatorios = true;
-    let retrievedObject = JSON.parse(this.local.getUsuario('usuario') || '{}');
-    this.usuario = retrievedObject; 
+    if(this.flights == undefined || null) {
+      let retrievedFlight = JSON.parse(this.local.getUsuario('flights') || '{}');
+      this.flights = retrievedFlight;
+    }
+    if(this.flights) {
+      let values = Object.values(this.flights);
+      let merged = values.flat(1);
+      let shuffled = merged.sort(function(){return .5 - Math.random()});
+      let selected = shuffled.slice(0,4);
+      this.selectedRandom = selected;
+      this.vuelosAleatorios = true;
+      let retrievedObject = JSON.parse(this.local.getUsuario('usuario') || '{}');
+      this.usuario = retrievedObject; 
+    }
   }
   checkUser( ) {
     this.validateForm = true;
@@ -69,18 +75,17 @@ export class RandomFlightComponent implements OnInit {
       this.users.email = this.usuario.email;
       this.users.name = this.usuario.name;
     } else {
-    this.users.email = this.email.value;
-    this.users.name = this.name.value;
-    this.users = this.userForm.value;
-    this.flightService.createUnregUser(this.users)
-      .subscribe(() => {
+      this.users.email = this.email.value;
+      this.users.name = this.name.value;
+      this.users = this.userForm.value;
+      this.flightService.createUnregUser(this.users).subscribe(() => {
         this.userConfirmado = true;
         this.local.setUsuario('usuario', JSON.stringify(this.users))
       },
       (error: any) => {
         this.errors = error.error;
         this.userConfirmado = false;
-      })
+      });
     }     
   }
   setFlight(flight: any) {

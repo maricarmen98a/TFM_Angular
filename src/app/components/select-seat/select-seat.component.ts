@@ -32,9 +32,8 @@ export class SelectSeatComponent implements OnInit {
   filteredReservations!: any[];
   checkedTickets: string[] = [];
   bntStyle: string;
-  step: boolean = false;
-  clickcounter: number = 0;
   chosenSeat: boolean = false;
+
   constructor(private location: Location, public local: LocalStorageService, public flightService: FlightService, public tokenService: TokenService, public router: Router, public dialog: MatDialog) {
     this.seat = new FormControl('');
     this.reservations = new ReservationDTO(1, 1, 1,'', '', '','', '', '', '', 1, '', '', new Date, new Date, '', '')
@@ -121,6 +120,7 @@ export class SelectSeatComponent implements OnInit {
     } else {
         this.extra = 10;
     }
+    return this.extra;
   }
   showInfo() {
     this.showIt = true;
@@ -131,7 +131,7 @@ export class SelectSeatComponent implements OnInit {
   back(): void {
     this.location.back()
   }
-  setData(reservation: any) {
+  setData() {
     let seatArray = this.checkedTickets[0];
     let selectedSeat = this.reserva.seat;
 
@@ -151,7 +151,7 @@ export class SelectSeatComponent implements OnInit {
     this.reservations.flight_id = this.reserva.flight_id;
     this.reservations.origin = this.reserva.origin;
     this.reservations.destination = this.reserva.destination;
-    this.reservations.price = this.reserva.price + this.extra; 
+    this.reservations.price = Number(this.reserva.price) + Number(this.extra); 
     this.reservations.reservation_code = this.reserva.reservation_code;
     this.reservations.boarding_time = this.reserva.boarding_time;
     this.reservations.arrival_time = this.reserva.arrival_time;
@@ -167,10 +167,10 @@ export class SelectSeatComponent implements OnInit {
       data: "¿Está seguro de que desea continuar?"
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.setData(this.reservation)
+      
+        this.setData()
         this.router.navigate(['extras']);
       }
-    });
+    );
   }
 }

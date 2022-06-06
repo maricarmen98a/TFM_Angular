@@ -6,6 +6,8 @@ import { ReservationDTO } from 'src/app/Models/reservation.dto';
 import { FlightService } from 'src/app/shared/Services/flight.service';
 import { Location } from '@angular/common';
 import { LocalStorageService } from 'src/app/shared/Services/local-storage.service';
+import { AuthService } from 'src/app/shared/Services/auth.service';
+import { AuthStateService } from 'src/app/shared/Services/auth-state.service';
 
 @Component({
   selector: 'app-payment',
@@ -40,7 +42,11 @@ export class PaymentComponent implements OnInit {
   noError: boolean = true;
   totalPrice: any;
   selectedValue: FormControl; 
-  public constructor(private location: Location, public local: LocalStorageService, private formBuilder: FormBuilder, public flightService: FlightService) {
+  usuario: any;
+  UserProfile!: any;
+  isSignedIn: boolean = false;
+
+  public constructor(private location: Location, private auth: AuthStateService, public authService: AuthService, public local: LocalStorageService, private formBuilder: FormBuilder, public flightService: FlightService) {
     this.name = new FormControl('', [Validators.required]);
     this.cardNumber = new FormControl('', [Validators.required, Validators.pattern('^[ 0-9]*$'), Validators.minLength(17)]);
     this.expiryMonth = new FormControl("", Validators.required);
@@ -56,15 +62,22 @@ export class PaymentComponent implements OnInit {
       selectedValue: this.selectedValue
     });
   } 
-  ngOnInit() {   
+  ngOnInit() {  
     let retrievedObject = JSON.parse(this.local.getUsuario('reserva') || '{}');
     this.reservation = retrievedObject; 
+    this.auth.userAuthState.subscribe((val) => {
+      this.isSignedIn = val;
+    }); 
+    if(this.isSignedIn == true) {
+      this.authService.profileUser().subscribe((data: any) => {
+        this.UserProfile = data;
+      });
+    }
     this.GetMonths();
     this.GetYears(); 
     this.stringToTime();
     this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservas = reservations));
   }
-
   creditCardNumberSpacing() {
     const input = this.ccNumberField.nativeElement;
     const { selectionStart } = input;
@@ -89,13 +102,10 @@ export class PaymentComponent implements OnInit {
   GetMonths() {
     for (let i = 1; i <= 12; i++) {
       this.month = <IMonth>{};
-      if(i.toString().length == 1)
-      {
+      if(i.toString().length == 1) {
         this.month.text = "0"+i.toString();
         this.month.value = "0"+i.toString();
-      }
-      else
-      {
+      } else {
         this.month.text = i.toString();
         this.month.value = i.toString();
       }
@@ -132,27 +142,6 @@ export class PaymentComponent implements OnInit {
 
     let hours = parseInt(hrPart2) - parseInt(hrPart);
     let minutes;
-
-    if (minPart2> minPart) {
-      minutes = parseInt(minPart2) - parseInt(minPart);
-      let horas = hours.toString();
-      let minutos = minutes.toString();
-      if (horas == '0') {
-        this.hoursFlight = minutos + ' minutos';
-      } else {
-        this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
-      }
-    } else if (minPart> minPart2) {
-      minutes = 60 - parseInt(minPart) + parseInt(minPart2); 
-      hours = hours - 1;
-      let horas = hours.toString();
-      let minutos = minutes.toString();
-      if (horas == '0') {
-        this.hoursFlight = minutos + ' minutos';
-      } else {
-        this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
-      }
-    }
     if (hrPart> hrPart2) {
       hours = 24 - parseInt(hrPart) + parseInt(hrPart2);
       let horas = hours.toString();
@@ -164,42 +153,64 @@ export class PaymentComponent implements OnInit {
         } else {
           this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
         }
-      } else if (minPart> minPart2) {
-          minutes = 60 - parseInt(minPart) + parseInt(minPart2); 
-          hours = hours - 1;
-          let horas = hours.toString();
-          let minutos = minutes.toString();
-          if (horas == '0') {
-            this.hoursFlight = minutos + ' minutos';
-          } else {
-            this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
-          }
-      }
+        } else if (minPart> minPart2) {
+            minutes = 60 - parseInt(minPart) + parseInt(minPart2); 
+            hours = hours - 1;
+            let horas = hours.toString();
+            let minutos = minutes.toString();
+            if (horas == '0') {
+              this.hoursFlight = minutos + ' minutos';
+            } else {
+              this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
+            }
+        }
+    } else if(hrPart == hrPart2) {
+      if (minPart> minPart2) {
+        minutes = 60 - parseInt(minPart2) + parseInt(minPart); 
+        hours = 23;
+        let horas = hours.toString();
+        let minutos = minutes.toString();
+        this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
+      } else if (minPart2> minPart) {
+        minutes = parseInt(minPart2) - parseInt(minPart);
+        hours = 24;
+        let horas = hours.toString();
+        let minutos = minutes.toString();
+        if (horas == '0') {
+          this.hoursFlight = minutos + ' minutos';
+        } else {
+          this.hoursFlight = horas + ' horas ' + minutos + ' minutos';
+        }
+      } 
     }
-  }
+}
   checkIfExists() {
-    this.showPrice = true;
-    let values = Object.values(this.reservas);
-    let merged = values.flat(1);
-    this.booking = merged.filter((x) => {
-      return (x.reservation_code == this.reservation.reservation_code)
-    })   
-    if(this.booking.length > 0) {
-      this.itExists = true; 
-      this.totalPrice = this.reservation.price;
-      if(this.reservation.price > this.booking[0].price) {
-        this.reservation.price = this.reservation.price - this.booking[0].price;
-      }
-    }    
+    if(this.reservas == undefined || null) {
+      this.flightService.getReservation().subscribe((reservations: ReservationDTO[]) => (this.reservas = reservations));
+      return this.reservas;
+    }
+    if(this.reservas) {
+      let retrievedObject = JSON.parse(this.local.getUsuario('reserva') || '{}');
+      this.reservation = retrievedObject;
+      let values = Object.values(this.reservas);
+      let merged = values.flat(1);
+      this.booking = merged.filter((x) => {
+        return (x.reservation_code == this.reservation.reservation_code)
+      })   
+      if(this.booking.length > 0) {
+        this.itExists = true; 
+        this.totalPrice = this.reservation.price;
+        if(this.reservation.price > this.booking[0].price) {
+          this.reservation.price = this.reservation.price - this.booking[0].price;
+        } else if(this.reservation.price == this.booking[0].price) {
+          this.reservation.price = 0;
+        }
+      }    
+      this.showPrice = true;
+    }
   }
   SaveCardDetails(){    
     this.isSubmitted = true;
-    this.paymentmodel.fullName = this.name.value; 
-    this.paymentmodel.cardNumber = this.cardNumber.value; 
-    this.paymentmodel.cardMonth = this.expiryMonth.value;
-    this.paymentmodel.cardYear = this.expiryYear.value;  
-    this.paymentmodel.cvc = this.cvc.value; 
-    this.paymentmodel.cardType = this.selectedValue.value;
     if(this.cvc.value == 666) {
       this.noError = false;
     }
@@ -209,6 +220,9 @@ export class PaymentComponent implements OnInit {
         this.reservation.price = this.totalPrice;
         this.flightService.updateReservation(this.reservation, this.reservation.id).subscribe();
       } else {
+        if(this.UserProfile){
+          this.reservation.user_id = this.UserProfile.id;
+        }
         this.flightService.createReservation(this.reservation).subscribe();
       }
       this.local.setUsuario('reserva', JSON.stringify(this.reservation))
